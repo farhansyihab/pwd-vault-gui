@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vaultgui"
+version = "0.1.0"
+dependencies = [
+    "httpx",
+]
+
+[tool.setuptools]
+packages = ["vaultgui"]

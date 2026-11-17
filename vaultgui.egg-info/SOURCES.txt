@@ -1,0 +1,10 @@
+pyproject.toml
+tests/test_config.py
+vaultgui/__init__.py
+vaultgui/__main__.py
+vaultgui/config.py
+vaultgui.egg-info/PKG-INFO
+vaultgui.egg-info/SOURCES.txt
+vaultgui.egg-info/dependency_links.txt
+vaultgui.egg-info/requires.txt
+vaultgui.egg-info/top_level.txt
