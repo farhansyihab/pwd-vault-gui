@@ -3,6 +3,8 @@ from tkinter import ttk, messagebox
 from vaultgui.server_manager import ServerManager
 from vaultgui.api_client import APIClient, AuthError, RateLimitError
 from vaultgui.worker import Worker
+from vaultgui.ui.login_view import LoginView
+from vaultgui.ui.entries_view import EntriesView
 from vaultgui import config
 
 class App:
@@ -16,9 +18,14 @@ class App:
         self.api_client = APIClient()
         self.worker = Worker(root)
         self.current_view = None
+        self._idle_timer = None
+        self._auto_lock_ms = 300_000  # 5 menit
 
         self._build_ui()
         self._auto_start_server()
+        self._bind_idle_events()
+        self._reset_idle_timer()
+        self.switch_view(LoginView)
 
     def _build_ui(self):
         main_frame = ttk.Frame(self.root, padding=10)
@@ -75,10 +82,32 @@ class App:
         self._update_server_status(False)
 
     def switch_view(self, view_class, *args, **kwargs):
+        if isinstance(view_class, str):
+            view_map = {"LoginView": LoginView, "EntriesView": EntriesView}
+            view_class = view_map.get(view_class)
+            if not view_class:
+                raise ValueError(f"View tidak dikenal: {view_class}")
         if self.current_view:
             self.current_view.destroy()
         self.current_view = view_class(self.content_frame, self, *args, **kwargs)
         self.current_view.pack(fill=tk.BOTH, expand=True)
+        self._reset_idle_timer()
+
+    def _bind_idle_events(self):
+        for evt in ("<Key>", "<Button>", "<Motion>"):
+            self.root.bind_all(evt, lambda e: self._reset_idle_timer(), add="+")
+
+    def _reset_idle_timer(self):
+        if self._idle_timer:
+            self.root.after_cancel(self._idle_timer)
+        self._idle_timer = self.root.after(self._auto_lock_ms, self._auto_lock)
+
+    def _auto_lock(self):
+        self.worker.submit(
+            self.api_client.logout,
+            on_result=lambda _: self.switch_view(LoginView),
+            on_error=lambda _: self.switch_view(LoginView)
+        )
 
     def on_close(self):
         if self.server_manager.process:

@@ -132,7 +132,7 @@ pwd-vault-gui/
 - [x] Tahap 2: `server_manager.py` (cek identitas lewat `/openapi.json`, mulai, hentikan, deteksi port terpakai, log ke berkas) beserta test
 - [x] Tahap 3: `api_client.py` (login, logout, saya, CRUD entri, pencarian, reveal, generator) dengan exception khusus, beserta test `MockTransport`
 - [x] Tahap 4: `worker.py`, jendela utama, dan panel server (status, mulai, hentikan)
-- [ ] Tahap 5: layar login dan logout, penanganan 401 dan 429, auto-lock
+- [x] Tahap 5: layar login dan logout, penanganan 401 dan 429, auto-lock
 - [ ] Tahap 6: daftar entri dan pencarian
 - [ ] Tahap 7: form tambah dan ubah, hapus dengan konfirmasi
 - [ ] Tahap 8: tampilkan dan salin password (auto-hide, auto-clear), buka URL
@@ -143,10 +143,10 @@ pwd-vault-gui/
 
 # 5. STATUS (kondisi sekarang)
 
-- **Tahap aktif:** 5
-- **Terakhir selesai:** 4
+- **Tahap aktif:** 6
+- **Terakhir selesai:** 5
 - **Masalah terbuka:** pengerasan kecil backend (Tahap 10 di proyek backend) belum dikerjakan. Tidak memblokir pengembangan GUI
-- **Yang ingin dikerjakan sekarang:** Tahap 5, membuat layar login, logout, dan auto-lock.
+- **Yang ingin dikerjakan sekarang:** Tahap 6, membuat daftar entri dan pencarian.
 
 ---
 
