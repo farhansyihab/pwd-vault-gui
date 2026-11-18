@@ -101,6 +101,7 @@ pwd-vault-gui/
 │       ├── login_view.py
 │       ├── entries_view.py  # daftar dan pencarian
 │       ├── entry_form.py    # tambah dan ubah
+│       ├── entry_form.py    # tambah dan ubah
 │       └── generator_dialog.py
 ├── logs/
 │   └── server.log           # tidak di-commit
@@ -129,8 +130,7 @@ pwd-vault-gui/
 - 2026-11-17: Tkinter dengan ttk dipilih karena bawaan Python, ringan, dan tanpa library tambahan. Qt dan sejenisnya terlalu berat untuk kebutuhan ini
 - 2026-11-17: Backend dijalankan sebagai proses terpisah memakai Python dari `.venv` backend, sehingga GUI tidak perlu memasang FastAPI atau uvicorn
 - 2026-11-17: Port 8000 sesuai permintaan. Catatan: AGENTS.md backend menyebut 8001. Port disimpan sebagai satu konstanta di `config.py`
-- 2026-11-18: Pencarian di `EntriesView` memakai debounce 300 ms (`SEARCH_DEBOUNCE_MS`) agar pengetikan cepat tidak memicu banjir request. Nilai ini cukup kecil untuk responsif, cukup besar untuk menggabungkan ketikan beruntun
-- 2026-11-18: `entries_view.py` dan `login_view.py` saling merujuk kelas view satu sama lain. Untuk memutus circular import saat modul dimuat, impor antar-view dilakukan secara lazy (di dalam method yang membutuhkan), bukan di level modul. Pola ini dipertahankan untuk view baru yang saling merujuk
+- 2026-11-18: Saat ubah entri, form tidak menampilkan password lama. Bila kolom password dikosongkan, GUI memanggil `GET /entri/{id}/password` sekali untuk mempertahankan password lama lalu mengirim PUT lengkap. Alasan: PUT diasumsikan penggantian penuh, sedangkan menampilkan password lama adalah wewenang Tahap 8.
 
 ## Keputusan yang masih terbuka (tawarkan 2 opsi saat tahapnya tiba)
 
@@ -148,7 +148,7 @@ pwd-vault-gui/
 - [x] Tahap 5: layar login dan logout, penanganan 401 dan 429, auto-lock
 - [x] Tahap 6: daftar entri dan pencarian
 - [x] Tahap 7: form tambah dan ubah, hapus dengan konfirmasi
-- [ ] Tahap 8: tampilkan dan salin password (auto-hide, auto-clear), buka URL
+- [x] Tahap 8: tampilkan dan salin password (auto-hide, auto-clear), buka URL
 - [ ] Tahap 9: dialog pembuat password acak
 - [ ] Tahap 10: tinjauan akhir (tidak ada rahasia di kode atau log, tidak ada akses ke berkas backend, tidak ada proses server yatim saat GUI ditutup atau dimatikan paksa, uji manual lengkap)
 
@@ -156,10 +156,10 @@ pwd-vault-gui/
 
 # 5. STATUS (kondisi sekarang)
 
-- **Tahap aktif:** 8
-- **Terakhir selesai:** 7
+- **Tahap aktif:** 9
+- **Terakhir selesai:** 8
 - **Masalah terbuka:** pengerasan kecil backend (Tahap 10 di proyek backend) belum dikerjakan. Tidak memblokir pengembangan GUI
-- **Yang ingin dikerjakan sekarang:** Tahap 8: tampilkan dan salin password (auto-hide, auto-clear), buka URL
+- **Yang ingin dikerjakan sekarang:** Tahap 9, membuat dialog pembuat password acak.
 
 ---
 
