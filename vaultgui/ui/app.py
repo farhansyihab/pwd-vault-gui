@@ -11,7 +11,11 @@ class App:
     def __init__(self, root):
         self.root = root
         self.root.title("pwd-vault")
-        self.root.geometry("500x400")
+        # Larger default so EntryForm (6 fields + footer buttons) fits without
+        # manual resizing. minsize prevents the user from shrinking it below
+        # the point where the footer buttons would be clipped.
+        self.root.geometry("560x620")
+        self.root.minsize(480, 520)
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
 
         self.server_manager = ServerManager()

@@ -47,6 +47,7 @@ class LoginView(ttk.Frame):
         )
 
     def _on_login_success(self, result):
+        from vaultgui.ui.entries_view import EntriesView
         self.app.switch_view(EntriesView)
 
     def _on_login_error(self, error):

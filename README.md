@@ -33,13 +33,13 @@ pip install -e .
 
 ```bash
 # Dengan venv aktif
-.venv/bin/python -m vaultgui
+.venv/bin/python3 -m vaultgui
 ```
 
 Atau langsung dari root proyek tanpa aktivasi manual:
 
 ```bash
-.venv/bin/python -m vaultgui
+.venv/bin/python3 -m vaultgui
 ```
 
 ## Penggunaan

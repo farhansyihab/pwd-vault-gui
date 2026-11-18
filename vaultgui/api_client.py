@@ -7,7 +7,7 @@ class RateLimitError(APIError): pass
 
 class APIClient:
     def __init__(self):
-        self.base_url = "http://localhost"
+        self.base_url = f"http://{config.HOST}:{config.PORT}"
         self.client = httpx.Client(base_url=self.base_url)
 
     def login(self, username, password):
@@ -24,6 +24,26 @@ class APIClient:
         resp = self.client.get("/entri", params={"q": q} if q else None)
         resp.raise_for_status()
         return resp.json()
+
+    def get_entry(self, entry_id):
+        resp = self.client.get(f"/entri/{entry_id}")
+        resp.raise_for_status()
+        return resp.json()
+
+    def create_entry(self, data):
+        resp = self.client.post("/entri", json=data)
+        resp.raise_for_status()
+        return resp.json()
+
+    def update_entry(self, entry_id, data):
+        resp = self.client.put(f"/entri/{entry_id}", json=data)
+        resp.raise_for_status()
+        return resp.json()
+
+    def delete_entry(self, entry_id):
+        resp = self.client.delete(f"/entri/{entry_id}")
+        resp.raise_for_status()
+        return resp.json() if resp.content else None
 
     def get_entry_password(self, entry_id):
         resp = self.client.get(f"/entri/{entry_id}/password")
