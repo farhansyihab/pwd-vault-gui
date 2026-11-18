@@ -28,7 +28,6 @@ def _make_http_error(method, url, status, json_body=None):
 def test_add_mode_shows_title(app_mock):
     view = EntryForm(None, app_mock)
     assert view.is_edit is False
-    # Semua field ada
     for name in EntryForm.FIELD_NAMES:
         assert name in view._vars
 
@@ -49,7 +48,6 @@ def test_edit_mode_shows_title_and_prefills_fields(app_mock):
     assert view._vars["email"].get() == "me@example.com"
     assert view._vars["url"].get() == "https://example.com"
     assert view._vars["keterangan"].get() == "personal"
-    # Password tidak diisi dari entry (tidak pernah ditampilkan).
     assert view._vars["password"].get() == ""
 
 
@@ -126,7 +124,6 @@ def test_edit_mode_without_password_fetches_old_password(app_mock):
     assert "on_result" in kwargs
     assert "on_error" in kwargs
 
-    # Simulasikan hasil fetch password lama
     app_mock.worker.submit.reset_mock()
     kwargs["on_result"]({"id": 5, "password": "old-secret-palsu"})
 
@@ -144,7 +141,7 @@ def test_edit_mode_old_password_missing_shows_error(app_mock):
 
     _args, kwargs = app_mock.worker.submit.call_args
     app_mock.worker.submit.reset_mock()
-    kwargs["on_result"]({})  # tidak ada key 'password'
+    kwargs["on_result"]({})
 
     app_mock.worker.submit.assert_not_called()
     assert "password lama" in view.error_var.get().lower()
@@ -197,3 +194,36 @@ def test_save_network_error_shows_friendly_message(app_mock):
     msg = view.error_var.get().lower()
     assert "terhubung" in msg
     assert "connection refused" not in msg
+
+
+# ---------- Tahap 9: integrasi dengan generator password ----------
+
+
+def test_open_generator_creates_dialog(app_mock):
+    view = EntryForm(None, app_mock)
+    with pytest.MonkeyPatch.context() as mp:
+        mock_dialog = MagicMock()
+        mp.setattr(
+            "vaultgui.ui.generator_dialog.GeneratorDialog", mock_dialog
+        )
+        view._open_generator()
+        mock_dialog.assert_called_once()
+        _args, kwargs = mock_dialog.call_args
+        assert "on_use" in kwargs
+        assert callable(kwargs["on_use"])
+
+
+def test_apply_generated_password_sets_field(app_mock):
+    view = EntryForm(None, app_mock)
+    view._apply_generated_password("password-palsu-123")
+    assert view._vars["password"].get() == "password-palsu-123"
+
+
+def test_generator_callback_does_not_touch_other_fields(app_mock):
+    view = EntryForm(None, app_mock)
+    view._vars["provider"].set("google")
+    view._vars["username"].set("me")
+    view._apply_generated_password("password-palsu-123")
+    assert view._vars["provider"].get() == "google"
+    assert view._vars["username"].get() == "me"
+    assert view._vars["password"].get() == "password-palsu-123"

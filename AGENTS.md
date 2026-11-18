@@ -149,17 +149,17 @@ pwd-vault-gui/
 - [x] Tahap 6: daftar entri dan pencarian
 - [x] Tahap 7: form tambah dan ubah, hapus dengan konfirmasi
 - [x] Tahap 8: tampilkan dan salin password (auto-hide, auto-clear), buka URL
-- [ ] Tahap 9: dialog pembuat password acak
+- [x] Tahap 9: dialog pembuat password acak
 - [ ] Tahap 10: tinjauan akhir (tidak ada rahasia di kode atau log, tidak ada akses ke berkas backend, tidak ada proses server yatim saat GUI ditutup atau dimatikan paksa, uji manual lengkap)
 
 ---
 
 # 5. STATUS (kondisi sekarang)
 
-- **Tahap aktif:** 9
-- **Terakhir selesai:** 8
+- **Tahap aktif:** 10
+- **Terakhir selesai:** 9
 - **Masalah terbuka:** pengerasan kecil backend (Tahap 10 di proyek backend) belum dikerjakan. Tidak memblokir pengembangan GUI
-- **Yang ingin dikerjakan sekarang:** Tahap 9, membuat dialog pembuat password acak.
+- **Yang ingin dikerjakan sekarang:** Tahap 10, tinjauan akhir dan finalisasi.
 
 ---
 

@@ -16,6 +16,9 @@ class EntryForm(ttk.Frame):
     on short windows, while the Simpan/Batal buttons live in a fixed footer
     outside the scroll region. This guarantees the action buttons are always
     visible regardless of window height.
+
+    Tahap 9: tombol "Acak..." di samping kolom password membuka
+    GeneratorDialog; hasilnya langsung diisi ke kolom password.
     """
 
     FIELD_NAMES = ("provider", "username", "password", "email", "url", "keterangan")
@@ -125,6 +128,13 @@ class EntryForm(ttk.Frame):
             entry_widget.grid(row=i, column=1, sticky=tk.EW, pady=3, padx=5)
             if self._first_entry is None:
                 self._first_entry = entry_widget
+            if name == "password":
+                ttk.Button(
+                    form,
+                    text="Acak...",
+                    command=self._open_generator,
+                    width=8,
+                ).grid(row=i, column=2, sticky=tk.W, pady=3, padx=(0, 5))
         form.columnconfigure(1, weight=1)
 
         hint = (
@@ -145,6 +155,18 @@ class EntryForm(ttk.Frame):
         for field in ("provider", "username", "email", "url", "keterangan"):
             self._vars[field].set(entry.get(field) or "")
         # Password intentionally left empty.
+
+    # ---------- Generator integration ----------
+
+    def _open_generator(self):
+        # Lazy import to avoid potential circular imports and keep the module
+        # import graph light when the generator is never used.
+        from vaultgui.ui.generator_dialog import GeneratorDialog
+
+        GeneratorDialog(self, self.app, on_use=self._apply_generated_password)
+
+    def _apply_generated_password(self, password):
+        self._vars["password"].set(password)
 
     # ---------- Save ----------
 
