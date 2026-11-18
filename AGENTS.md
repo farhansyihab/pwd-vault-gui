@@ -131,7 +131,7 @@ pwd-vault-gui/
 - [x] Tahap 1: folder proyek, venv, `requirements.txt`, `.gitignore`, `pytest.ini`, `git init`, `python -m vaultgui` membuka jendela ttk kosong, satu test untuk `config.py`. Periksa dulu `python3 -c "import tkinter"`; bila gagal, minta saya memasang `python3-tk`
 - [x] Tahap 2: `server_manager.py` (cek identitas lewat `/openapi.json`, mulai, hentikan, deteksi port terpakai, log ke berkas) beserta test
 - [x] Tahap 3: `api_client.py` (login, logout, saya, CRUD entri, pencarian, reveal, generator) dengan exception khusus, beserta test `MockTransport`
-- [ ] Tahap 4: `worker.py`, jendela utama, dan panel server (status, mulai, hentikan)
+- [x] Tahap 4: `worker.py`, jendela utama, dan panel server (status, mulai, hentikan)
 - [ ] Tahap 5: layar login dan logout, penanganan 401 dan 429, auto-lock
 - [ ] Tahap 6: daftar entri dan pencarian
 - [ ] Tahap 7: form tambah dan ubah, hapus dengan konfirmasi
@@ -143,10 +143,10 @@ pwd-vault-gui/
 
 # 5. STATUS (kondisi sekarang)
 
-- **Tahap aktif:** 4
-- **Terakhir selesai:** 3
+- **Tahap aktif:** 5
+- **Terakhir selesai:** 4
 - **Masalah terbuka:** pengerasan kecil backend (Tahap 10 di proyek backend) belum dikerjakan. Tidak memblokir pengembangan GUI
-- **Yang ingin dikerjakan sekarang:** Tahap 4, membuat `worker.py` dan jendela aplikasi utama.
+- **Yang ingin dikerjakan sekarang:** Tahap 5, membuat layar login, logout, dan auto-lock.
 
 ---
 
